@@ -31,12 +31,13 @@ def webhook():
 def processRequest(req):
     if req.get("result").get("action") != "yahooWeatherForecast":
         return {}
-    baseurl = "https://query.yahooapis.com/v1/public/yql?"
-    yql_query = makeYqlQuery(req)
-    if yql_query is None:
-        return {}
-    yql_url = baseurl + urllib.urlencode({'q': yql_query}) + "&format=json"
+    baseurl = "http://androidfyp.net23.net/getproperty.php"
+    yql_url = baseurl
+    print(yql_url)
     result = urllib.urlopen(yql_url).read()
+    print("yql result: ")
+    print(result)
+
     data = json.loads(result)
     res = makeWebhookResult(data)
     return res
@@ -57,28 +58,16 @@ def makeWebhookResult(data):
     if query is None:
         return {}
 
-    result = query.get('results')
+    result = query.get('title')
     if result is None:
         return {}
 
-    channel = result.get('channel')
+    channel = result.get('image')
     if channel is None:
         return {}
-
-    item = channel.get('item')
-    location = channel.get('location')
-    units = channel.get('units')
-    if (location is None) or (item is None) or (units is None):
-        return {}
-
-    condition = item.get('condition')
-    if condition is None:
-        return {}
-
     # print(json.dumps(item, indent=4))
 
-    speech = "Test:Today in " + location.get('city') + ": " + condition.get('text') + \
-             ", the temperature is " + condition.get('temp') + " " + units.get('temperature')
+    speech="Testing"+ result
 
     print("Response:")
     print(speech)
