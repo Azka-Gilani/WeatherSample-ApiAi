@@ -42,17 +42,6 @@ def processRequest(req):
     res = makeWebhookResult(data)
     return res
 
-
-def makeYqlQuery(req):
-    result = req.get("result")
-    parameters = result.get("parameters")
-    city = parameters.get("geo-city")
-    if city is None:
-        return None
-
-    return "select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='" + city + "')"
-
-
 def makeWebhookResult(data):
     query = data.get('query')
     if query is None:
@@ -60,10 +49,6 @@ def makeWebhookResult(data):
 
     result = query.get('title')
     if result is None:
-        return {}
-
-    channel = result.get('image')
-    if channel is None:
         return {}
     # print(json.dumps(item, indent=4))
 
