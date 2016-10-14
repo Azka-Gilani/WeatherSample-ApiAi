@@ -31,7 +31,7 @@ def webhook():
 def processRequest(req):
     if req.get("result").get("action") != "yahooWeatherForecast":
         return {}
-    baseurl = "http://androidfyp.net23.net/getproperty.php"
+    baseurl = "https://fazendanatureza.com/bot/botarz.php"
     yql_url = baseurl
     print(yql_url)
     result = urllib.urlopen(yql_url).read()
